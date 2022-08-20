@@ -1,17 +1,13 @@
-export default class FareCalculation {
-    public exec(rideList: any ): number {
+export default class FareCalculationV2 {
+    public exec(rideList: any[]): number {
         let fare = 0;
         for (const ride of rideList) {
-            const distance = ride.dist
-            const rideTime = ride.ds
+            const distance = ride.distance
+            const rideTime = ride.rideTime
 
-            if (!this.isValidDistance(distance)) {
-                return -1
+            if (!this.isValidDistance(distance) || !this.isValidTime(rideTime)) {
+                throw new Error('invalid ride')
             }
-
-            if (!this.isValidTime(rideTime)) {
-                return -2
-            } 
 
             if (this.isOverNight(rideTime)) {                
                 if (!this.isSunday(rideTime)) {                            
@@ -36,11 +32,11 @@ export default class FareCalculation {
     }
 
     private isValidDistance(distance: number): boolean {
-        return (distance !== null && distance !== undefined && typeof distance === "number" && distance > 0)
+        return (typeof distance === "number" && distance > 0)
     }
 
     private isValidTime(rideTime: Date): boolean{
-        return (rideTime !== null && rideTime !== undefined && rideTime instanceof Date && rideTime.toString() !== "Invalid Date")
+        return (rideTime && rideTime instanceof Date && rideTime.toString() !== "Invalid Date")
     }
 
     private isOverNight(rideTime: Date): boolean {
