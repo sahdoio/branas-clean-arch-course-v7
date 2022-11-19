@@ -1,22 +1,22 @@
-export default class FareCalculationV2 {
-    public exec(rideList: any[]): number {
+export default class FareCalculationV1 {
+    public exec(segments: any[]): number {
         let fare = 0;
-        for (const ride of rideList) {
-            const distance = ride.distance
-            const rideTime = ride.rideTime
+        for (const segment of segments) {
+            const distance = segment.distance
+            const segmentTime = segment.rideTime
 
-            if (!this.isValidDistance(distance) || !this.isValidTime(rideTime)) {
+            if (!this.isValidDistance(distance) || !this.isValidTime(segmentTime)) {
                 throw new Error('invalid ride')
             }
 
-            if (this.isOverNight(rideTime)) {                
-                if (!this.isSunday(rideTime)) {                            
+            if (this.isOverNight(segmentTime)) {
+                if (!this.isSunday(segmentTime)) {                            
                     fare += distance * 3.90;
                 } else {
                     fare += distance * 5;        
                 }
             } else {
-                if (this.isSunday(rideTime)) {                
+                if (this.isSunday(segmentTime)) {                
                     fare += distance * 2.9;                
                 } else {
                     fare += distance * 2.10;                
